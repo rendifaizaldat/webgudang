@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Panel Gudang</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="d-flex flex-column" style="min-height: 100vh">
+      <div class="d-flex flex-grow-1">
+        <nav
+          id="sidebar"
+          class="d-flex flex-column flex-shrink-0 p-3 bg-light"
+          style="width: 280px; height: 100vh; position: sticky; top: 0"
+        >
+          <a
+            href="#"
+            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none"
+          >
+            <i class="bi bi-box-seam fs-4 me-2"></i
+            ><span class="fs-4">Admin Panel</span>
+          </a>
+          <hr />
+          <ul class="nav nav-pills flex-column mb-auto" id="admin-nav">
+            <li class="nav-item">
+              <a href="#dashboard" class="nav-link active" data-bs-toggle="tab"
+                ><i class="bi bi-speedometer2 me-2"></i>Dashboard</a
+              >
+            </li>
+            <li>
+              <a
+                href="#barang-masuk"
+                class="nav-link link-dark"
+                data-bs-toggle="tab"
+                ><i class="bi bi-box-arrow-in-down me-2"></i>Barang Masuk</a
+              >
+            </li>
+            <li>
+              <a
+                href="#piutang-outlet"
+                class="nav-link link-dark"
+                data-bs-toggle="tab"
+                ><i class="bi bi-person-check me-2"></i>Piutang Outlet</a
+              >
+            </li>
+            <li>
+              <a
+                href="#hutang-vendor"
+                class="nav-link link-dark"
+                data-bs-toggle="tab"
+                ><i class="bi bi-truck me-2"></i>Hutang Vendor</a
+              >
+            </li>
+            <li>
+              <a
+                href="#master-produk"
+                class="nav-link link-dark"
+                data-bs-toggle="tab"
+                ><i class="bi bi-boxes me-2"></i>Master Produk</a
+              >
+            </li>
+          </ul>
+          <hr />
+          <div class="dropdown">
+            <a
+              href="#"
+              class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+              data-bs-toggle="dropdown"
+            >
+              <strong id="admin-greeting">Admin</strong>
+            </a>
+            <ul class="dropdown-menu text-small shadow">
+              <li>
+                <a class="dropdown-item" href="#" onclick="logout()"
+                  >Sign out</a
+                >
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main class="w-100 p-4" style="overflow-y: auto">
+          <div
+            id="loader"
+            class="d-flex justify-content-center align-items-center"
+            style="height: 80vh"
+          >
+            <div
+              class="spinner-border text-primary"
+              style="width: 3rem; height: 3rem"
+            ></div>
+          </div>
+
+          <div id="main-content" class="d-none tab-content">
+            <div class="tab-pane fade show active" id="dashboard">
+              <h2 class="fw-bold mb-4">Dashboard</h2>
+              <div class="row g-4 mb-4" id="summary-cards"></div>
+              <hr class="my-4" />
+              <div class="row g-4">
+                <div class="col-lg-4 col-md-12">
+                  <div class="card glass-card h-100">
+                    <div class="card-header fw-bold">Produk Stok Habis</div>
+                    <div class="card-body p-2">
+                      <div class="table-responsive">
+                        <table class="table table-sm table-borderless small">
+                          <thead>
+                            <tr>
+                              <th>ID</th>
+                              <th>Nama Produk</th>
+                            </tr>
+                          </thead>
+                          <tbody id="dashboard-produk-habis-body"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                  <div class="card glass-card h-100">
+                    <div class="card-header fw-bold">
+                      Hutang Vendor Belum Lunas
+                    </div>
+                    <div class="card-body p-2">
+                      <div class="table-responsive">
+                        <table class="table table-sm table-borderless small">
+                          <thead>
+                            <tr>
+                              <th>Tanggal</th>
+                              <th>Vendor</th>
+                              <th>Total</th>
+                            </tr>
+                          </thead>
+                          <tbody id="dashboard-hutang-vendor-body"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                  <div class="card glass-card h-100">
+                    <div class="card-header fw-bold">
+                      Piutang Outlet Belum Lunas
+                    </div>
+                    <div class="card-body p-2">
+                      <div class="table-responsive">
+                        <table class="table table-sm table-borderless small">
+                          <thead>
+                            <tr>
+                              <th>Tanggal</th>
+                              <th>Outlet</th>
+                              <th>Total</th>
+                            </tr>
+                          </thead>
+                          <tbody id="dashboard-piutang-outlet-body"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="barang-masuk">
+              <h2 class="fw-bold mb-4">Input Barang Masuk (Nota Vendor)</h2>
+              <div class="card glass-card">
+                <div class="card-body p-4">
+                  <form id="formBarangMasuk" class="row g-3 align-items-end">
+                    <div class="col-md-6">
+                      <label for="vendorSelect" class="form-label"
+                        >Nama Vendor</label
+                      >
+                      <select
+                        id="vendorSelect"
+                        class="form-select"
+                        required
+                      ></select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="notaVendor" class="form-label"
+                        >No. Nota Vendor</label
+                      ><input
+                        type="text"
+                        class="form-control"
+                        id="notaVendor"
+                        required
+                        placeholder="Contoh: INV/2025/07/123"
+                      />
+                    </div>
+                    <div class="col-12"><hr /></div>
+                    <div class="col-md-5">
+                      <label for="namaBarang" class="form-label"
+                        >Nama Barang</label
+                      ><input
+                        type="text"
+                        class="form-control"
+                        id="namaBarang"
+                        required
+                        placeholder="Sesuai di sheet Inventaris"
+                      />
+                    </div>
+                    <div class="col-md-2">
+                      <label for="qtyBarang" class="form-label">Kuantitas</label
+                      ><input
+                        type="number"
+                        class="form-control"
+                        id="qtyBarang"
+                        required
+                        min="1"
+                        placeholder="0"
+                      />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="hargaBeli" class="form-label"
+                        >Harga Beli Satuan</label
+                      ><input
+                        type="number"
+                        class="form-control"
+                        id="hargaBeli"
+                        required
+                        min="0"
+                        placeholder="Rp 0"
+                      />
+                    </div>
+                    <div class="col-md-2">
+                      <button type="submit" class="btn btn-secondary w-100">
+                        <i class="bi bi-plus-circle"></i> Tambah
+                      </button>
+                    </div>
+                  </form>
+                  <hr />
+                  <h5 class="mt-4">Daftar Barang Untuk Disimpan</h5>
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                      <thead>
+                        <tr>
+                          <th>Nama Barang</th>
+                          <th>Qty</th>
+                          <th>Harga</th>
+                          <th>Subtotal</th>
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tabelBarangMasukPreview"></tbody>
+                    </table>
+                  </div>
+                  <div class="d-flex justify-content-end mt-3">
+                    <button
+                      class="btn btn-primary fw-bold"
+                      id="simpanSemuaBtn"
+                      disabled
+                    >
+                      <i class="bi bi-save me-2"></i> Simpan Semua ke Gudang
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="piutang-outlet">
+              <h2 class="fw-bold mb-4">Laporan Piutang Outlet</h2>
+              <div class="table-responsive card glass-card p-3">
+                <table class="table table-hover align-middle">
+                  <thead>
+                    <tr>
+                      <th>ID Invoice</th>
+                      <th>Tanggal</th>
+                      <th>Outlet</th>
+                      <th>Total</th>
+                      <th>Status</th>
+                      <th>Bukti Bayar</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="piutang-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="hutang-vendor">
+              <h2 class="fw-bold mb-4">Laporan Hutang ke Vendor</h2>
+
+              <div class="card glass-card p-3 mb-4">
+                <h5 class="fw-bold">Buat Pengajuan Pembayaran</h5>
+                <div class="row g-3 align-items-end">
+                  <div class="col-md-4">
+                    <label for="startDateHutang" class="form-label"
+                      >Tanggal Mulai</label
+                    >
+                    <input
+                      type="date"
+                      id="startDateHutang"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="col-md-4">
+                    <label for="endDateHutang" class="form-label"
+                      >Tanggal Akhir</label
+                    >
+                    <input
+                      type="date"
+                      id="endDateHutang"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="col-md-4">
+                    <label for="saldoAwal" class="form-label"
+                      >Saldo Awal Kas</label
+                    >
+                    <input
+                      type="number"
+                      id="saldoAwal"
+                      class="form-control"
+                      placeholder="Rp 0"
+                    />
+                  </div>
+                  <div class="col-md-12 text-end">
+                    <button
+                      id="generatePaymentRequestBtn"
+                      class="btn btn-primary fw-bold"
+                    >
+                      <i class="bi bi-file-earmark-pdf"></i> Buat Laporan PDF
+                    </button>
+                  </div>
+                </div>
+                <small class="text-muted mt-2"
+                  >Pilih rentang tanggal untuk data hutang & piutang yang akan
+                  dimasukkan dalam laporan.</small
+                >
+              </div>
+
+              <div class="table-responsive card glass-card p-3">
+                <table class="table table-hover align-middle">
+                  <thead>
+                    <tr>
+                      <th>No. Nota</th>
+                      <th>Tanggal</th>
+                      <th>Vendor</th>
+                      <th>Total</th>
+                      <th>Status</th>
+                      <th>Bukti Bayar</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="hutang-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="master-produk">
+              <h2 class="fw-bold mb-4">Master Data Produk</h2>
+              <div class="table-responsive card glass-card p-3">
+                <table class="table table-hover align-middle">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nama Produk</th>
+                      <th>Unit</th>
+                      <th>Stok Awal</th>
+                      <th>Stok Akhir</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventaris-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer class="admin-footer text-center p-3 bg-light">
+        <small class="text-muted">
+          rendifaizaldat@gmail.com | 085722027326 | &copy; 2025
+        </small>
+      </footer>
+
+      <a
+        href="https://wa.me/6288809077827"
+        target="_blank"
+        class="whatsapp-chat-button"
+        title="Hubungi via WhatsApp"
+      >
+        <i class="bi bi-whatsapp"></i>
+      </a>
+    </div>
+
+    <div class="modal fade" id="uploadModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="uploadModalTitle">
+              Upload Bukti Pembayaran
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="uploadForm">
+              <input type="hidden" id="uploadId" />
+              <input type="hidden" id="uploadType" />
+              <div class="mb-3">
+                <label for="fileInput" class="form-label"
+                  >Pilih file gambar (JPG/PNG)</label
+                >
+                <input
+                  class="form-control"
+                  type="file"
+                  id="fileInput"
+                  accept="image/jpeg, image/png"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast-container position-fixed top-0 end-0 p-3"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/admin/admin.js"></script>
+  </body>
+</html>

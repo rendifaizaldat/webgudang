@@ -1,0 +1,374 @@
+:root {
+  --primary: #f70000;
+  --secondary: #6c757d;
+  --success: #198754;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --pastel-green: rgba(40, 167, 69, 0.85);
+  --shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background-color: var(--light);
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+/* ======================================================== */
+/* ==      PATCH 1: GAYA FORM LOGIN                      == */
+/* ======================================================== */
+.login-container {
+  max-width: 420px;
+  width: 95%; /* Lebih responsif di layar sangat kecil */
+  margin: auto;
+}
+
+.login-container .card {
+  padding: 1.5rem;
+  border-radius: 20px;
+}
+
+@media (min-width: 576px) {
+  .login-container .card {
+    padding: 2.5rem; /* Padding lebih besar di desktop */
+  }
+}
+
+.card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  height: 100%;
+  background-color: #ffffff;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.disabled-card {
+  position: relative;
+  background-color: #f8f9fa;
+  overflow: hidden;
+  opacity: 0.7;
+}
+
+.sold-out-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(2px);
+}
+
+.sold-out-overlay span {
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  transform: rotate(-15deg);
+  font-size: 1.1rem;
+}
+
+/* ======================================================== */
+/* ==   DESAIN KARTU PRODUK (DESKTOP & TABLET)           == */
+/* ======================================================== */
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card .card-image-container {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+
+.product-card .product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+/* PATCH 2: GAYA TEKS DI DESKTOP OVERLAY */
+.product-card .desktop-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.8) 20%,
+    rgba(0, 0, 0, 0) 80%
+  );
+  color: #000000;
+  text-shadow: 0 5px 8px rgba(255, 255, 255, 0.9); /* Shadow lebih tegas */
+}
+
+.desktop-overlay .product-unit,
+.desktop-overlay .product-price,
+.desktop-overlay .product-stock {
+  color: #000000;
+}
+
+.product-header-desktop {
+  /* Hilangkan border bawaan Bootstrap dan atur padding */
+  border-bottom: 1px solid #dee2e6;
+  background-color: transparent;
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+
+.product-header-desktop .product-name {
+  font-size: 1rem; /* Ukuran font yang lebih sesuai */
+  font-weight: bold;
+  margin-bottom: 0;
+  color: var(--dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 575.98px) {
+  .product-header-desktop {
+    display: none;
+  }
+}
+
+.product-info-mobile,
+.mobile-badges,
+.product-price-mobile {
+  display: none;
+}
+
+/* ======================================================== */
+/* ==      GAYA TOMBOL KUANTITAS (SEMUA UKURAN)          == */
+/* ======================================================== */
+
+.product-card .card-footer {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.quantity-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f2f5;
+  border-radius: 25px;
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.quantity-control .btn-qty {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: white;
+  border: none;
+  color: var(--dark);
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.quantity-control .btn-qty:hover {
+  transform: scale(1.1);
+  background-color: #e9ecef;
+}
+
+.quantity-control .btn-qty:active {
+  transform: scale(0.95);
+}
+
+.quantity-control .btn-qty:disabled {
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.quantity-control .qty-display {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+/* ======================================================== */
+/* ==      PENYESUAIAN MOBILE (WIDTH <= 575.98px)        == */
+/* ======================================================== */
+@media (max-width: 575.98px) {
+  .product-info-mobile,
+  .mobile-badges,
+  .product-price-mobile {
+    display: block;
+  }
+  .product-card .desktop-overlay {
+    display: none;
+  }
+
+  .product-card .card-image-container {
+    aspect-ratio: 1 / 1;
+  }
+
+  .product-info-mobile {
+    padding: 0.75rem 0.75rem 0.5rem 0.75rem;
+  }
+
+  /* PATCH 3: GAYA NAMA PRODUK DI MOBILE */
+  .product-name-mobile {
+    font-size: 0.85rem; /* Ukuran font diperkecil */
+    font-weight: 600;
+    margin: 0;
+    /* Properti untuk memotong teks panjang */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-badges span {
+    position: absolute;
+    background-color: var(--pastel-green);
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 5px;
+    border-radius: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .stock-badge-mobile {
+    top: 8px;
+    right: 8px;
+  }
+  .unit-badge-mobile {
+    bottom: 5px;
+    left: 8px;
+  }
+
+  .product-price-mobile {
+    text-align: center;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--primary);
+  }
+
+  .product-card .card-footer {
+    padding: 0 0.75rem 0.75rem 0.75rem;
+  }
+}
+
+/* ======================================================== */
+/* ==      PATCH: FOOTER & LIVE CHAT STYLES              == */
+/* ======================================================== */
+
+.admin-footer {
+  border-top: 1px solid #dee2e6;
+  width: 100%;
+}
+
+.whatsapp-chat-button {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  background-color: #25d366; /* Warna WhatsApp */
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem; /* Sedikit diperbesar untuk ikon WhatsApp */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  z-index: 1050;
+}
+
+.whatsapp-chat-button:hover {
+  transform: scale(1.1);
+  background-color: #128c7e; /* Warna WhatsApp (hover) */
+  color: white;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.card-header {
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+/* ANIMASI TOMBOL KABUR */
+#loginButton {
+  position: relative;
+  /* Transisi untuk kembali ke bentuk normal */
+  transition: width 0.3s ease-in-out, height 0.3s ease-in-out,
+    border-radius 0.3s ease-in-out;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#loginButton.dodging {
+  position: fixed; /* KUNCI UTAMA: Mengangkat tombol dari alur dokumen */
+  z-index: 1051; /* Pastikan tombol di atas elemen lain (misal: header) */
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 0;
+  /* Transisi untuk pergerakan dan perubahan bentuk */
+  transition: top 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6),
+    /* Animasi untuk posisi vertikal */ left 0.4s
+      cubic-bezier(0.68, -0.6, 0.32, 1.6),
+    /* Animasi untuk posisi horizontal */ width 0.3s ease-in-out,
+    height 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+}
+
+/* ANIMASI EMOJI MENANGIS */
+.crying-emoji {
+  font-size: 2rem;
+  animation: cryAnimation 0.5s infinite alternate;
+}
+
+@keyframes cryAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+.toast-body {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
