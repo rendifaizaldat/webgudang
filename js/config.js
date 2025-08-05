@@ -4,7 +4,7 @@ class AppConfig {
   // Semua properti sekarang statis
   static API_ENDPOINTS = {
     SCRIPT_URL:
-      "https://script.google.com/macros/s/AKfycbw-q1iIrQOCBCu3fZU7VQgPuNPewon3YQrccVEvRCJpmHA-kgrhHlvW77Ay4Cjl4ftl/exec", // Ganti dengan URL Deploy baru Anda jika ada
+      "https://script.google.com/macros/s/AKfycbzL0CusSVjw4pNgevXAkYQ5oxTyyGcFMreSKOn-MIbiewvpgglFHQlprk6Kcr-fJPz6/exec", // Ganti dengan URL Deploy baru Anda jika ada
   };
 
   static CONSTANTS = {
@@ -94,3 +94,4 @@ class AppConfig {
 
 // Panggil metode init statis secara langsung
 AppConfig.init();
+
